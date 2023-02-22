@@ -1,6 +1,8 @@
 Social Networking Kata
 ----------------------
 
+# ONGOING KATA! TO BE REFACTORED AND FINISHED
+
 Implement a console-based social networking application (similar to Twitter) satisfying the scenarios below.
 
 ### Scenarios
