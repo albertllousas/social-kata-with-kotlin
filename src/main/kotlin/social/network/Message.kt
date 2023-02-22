@@ -1,3 +1,5 @@
 package social.network
 
-data class Message(val value: String)
+import java.time.LocalDateTime
+
+data class Message(val value: String, val ts: LocalDateTime)
