@@ -2,7 +2,6 @@ package social.network
 
 import java.time.Clock
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit.MINUTES
 
 class SocialNetworkConsole(
     private val timelines: PersonalTimelines,
@@ -30,14 +29,11 @@ class SocialNetworkConsole(
 
 }
 
-private fun calculateMinutesTillNowFor(messageTs: LocalDateTime, clock: Clock): String =
-    MINUTES.between(messageTs, LocalDateTime.now(clock))
-        .let {
-            when (it) {
-                in 0..1 -> "$it minute"
-                else -> "$it minutes"
-            }
-        }
+private fun getMinutesFormat(minutes: Long): String =
+    when (minutes) {
+        in 0..1 -> "$minutes minute"
+        else -> "$minutes minutes"
+    }
 
-fun Message.asFormatted(clock: Clock): String = "${this.value} (${calculateMinutesTillNowFor(this.ts, clock)} ago)"
+fun Message.asFormatted(clock: Clock): String = "${this.value} (${getMinutesFormat(this.getMinutesTillNow(clock))} ago"
 
