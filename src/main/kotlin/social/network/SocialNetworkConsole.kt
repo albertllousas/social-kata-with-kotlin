@@ -30,14 +30,14 @@ class SocialNetworkConsole(
 
 }
 
-private fun calculateMinutesTillNowFor(messageTs: LocalDateTime, clock: Clock): String {
-    val minutes = MINUTES.between(messageTs, LocalDateTime.now(clock))
-    return if (minutes <= 1) {
-        "$minutes minute"
-    } else {
-        "$minutes minutes"
-    }
-}
+private fun calculateMinutesTillNowFor(messageTs: LocalDateTime, clock: Clock): String =
+    MINUTES.between(messageTs, LocalDateTime.now(clock))
+        .let {
+            when (it) {
+                in 0..1 -> "$it minute"
+                else -> "$it minutes"
+            }
+        }
 
 fun Message.asFormatted(clock: Clock): String = "${this.value} (${calculateMinutesTillNowFor(this.ts, clock)} ago)"
 
