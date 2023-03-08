@@ -89,7 +89,7 @@ class SocialNetworkConsoleTest {
         fun `should print the wall of a user`() {
             val fstBobMsg = Message("Good game though.", LocalDateTime.parse("2007-12-03T10:14:30"))
             val sndBobMsg = Message("Damn! We lost!", LocalDateTime.parse("2007-12-03T10:13:30"))
-            val charlieMsg = Message("I'm in New York today! Anyone wants to have a coffee?", LocalDateTime.parse("2007-12-03T10:14:30"))
+            val charlieMsg = Message("I'm in New York today! Anyone wants to have a coffee?", LocalDateTime.parse("2007-12-03T10:15:15"))
             every { users.findFollowedUsers(User("Charlie")) } returns listOf(User("Bob"))
             every { timelines.view(ViewTimeline(from = User("Bob"))) } returns listOf(fstBobMsg, sndBobMsg)
             every { timelines.view(ViewTimeline(from = User("Charlie"))) } returns listOf(charlieMsg)
