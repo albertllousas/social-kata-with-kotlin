@@ -2,14 +2,17 @@ package social.network
 
 import java.time.Clock
 import java.time.LocalDateTime
+import java.time.LocalDateTime.*
 
 class SocialNetworkConsole(
+    private val users: Users,
     private val timelines: PersonalTimelines,
     private val clock: Clock,
 ) {
 
     companion object {
         const val PUBLISH_DELIMITER = " -> "
+        const val FOLLOW_DELIMITER = " follows "
     }
 
     fun submitCommand(command: String): String = parse(command).let(::execute)
@@ -17,9 +20,9 @@ class SocialNetworkConsole(
     private fun parse(command: String): Command =
         when {
             command.contains(PUBLISH_DELIMITER) ->
-                command.split(PUBLISH_DELIMITER)
-                    .let { PublishMessage(User(it[0]), Message(it[1], LocalDateTime.now(clock))) }
-
+                command.split(PUBLISH_DELIMITER).let { PublishMessage(User(it[0]), Message(it[1], now(clock))) }
+            command.contains(FOLLOW_DELIMITER) ->
+                command.split(FOLLOW_DELIMITER).let { SubscribeCommand(User(it[0]), User(it[1])) }
             else -> ViewTimeline(User(command))
         }
 
@@ -27,9 +30,8 @@ class SocialNetworkConsole(
         is PublishMessage ->
             timelines.publish(command).let { "" }
         is ViewTimeline ->
-            timelines
-                .view(command)
-                .joinToString("\n") { it.asFormatted(clock) }
+            timelines.view(command).joinToString("\n") { it.asFormatted(clock) }
+        is SubscribeCommand -> users.subscribe(command).let { "" }
     }
 }
 
