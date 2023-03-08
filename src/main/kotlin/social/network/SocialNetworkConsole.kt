@@ -5,29 +5,41 @@ import java.time.LocalDateTime
 
 class SocialNetworkConsole(
     private val timelines: PersonalTimelines,
-    private val clock: Clock
+    private val clock: Clock,
 ) {
 
     companion object {
         const val PUBLISH_DELIMITER = " -> "
     }
 
-    fun submitCommand(command: String): String =
+    fun submitCommand(command: String): String = parse(command).let(::execute)
+
+    fun execute(command: Command): String = when (command) {
+        is PublishMessage ->
+            timelines.publish(command).let { "" }
+
+        is ViewTimeline ->
+            timelines
+                .view(command)
+                .joinToString("\n") { it.asFormatted(clock) }
+    }
+
+    fun parse(command: String): Command =
         when {
-            command.contains(PUBLISH_DELIMITER) -> post(command)
-            else -> view(command)
+            command.contains(PUBLISH_DELIMITER) ->
+                command.split(PUBLISH_DELIMITER)
+                    .let { PublishMessage(User(it[0]), Message(it[1], LocalDateTime.now(clock))) }
+
+            else -> ViewTimeline(User(command))
         }
-
-    private fun post(command: String): String = command
-        .split(PUBLISH_DELIMITER)
-        .also { timelines.publish(User(it[0]), Message(it[1], LocalDateTime.now(clock))) }
-        .let { "" }
-
-    private fun view(command: String): String = timelines
-        .view(User(command))
-        .joinToString("\n") { it.asFormatted(clock) }
-
 }
+
+sealed class Command
+
+data class PublishMessage(val user: User, val message: Message) : Command()
+
+data class ViewTimeline(val from: User) : Command()
+
 
 private fun getMinutesFormat(minutes: Long): String =
     when (minutes) {

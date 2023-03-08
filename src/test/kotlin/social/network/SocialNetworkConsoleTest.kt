@@ -24,7 +24,12 @@ class SocialNetworkConsoleTest {
 
         assertThat(result).isEqualTo("")
         verify {
-            timelines.publish(User("Alice"), Message("I love the weather today", LocalDateTime.parse("2007-12-03T10:15:30")))
+            timelines.publish(
+                PublishMessage(
+                    user = User("Alice"),
+                    message = Message("I love the weather today", LocalDateTime.parse("2007-12-03T10:15:30"))
+                )
+            )
         }
     }
 
@@ -32,7 +37,7 @@ class SocialNetworkConsoleTest {
     fun `should read the timeline from a user`() {
         val firstMessage = Message("Good game though.", LocalDateTime.parse("2007-12-03T10:14:30"))
         val secondMessage = Message("Damn! We lost!", LocalDateTime.parse("2007-12-03T10:13:30"))
-        every { timelines.view(User("Alice")) } returns listOf(firstMessage, secondMessage)
+        every { timelines.view(ViewTimeline(from = User("Alice"))) } returns listOf(firstMessage, secondMessage)
 
         val result = console.submitCommand("Alice")
 
