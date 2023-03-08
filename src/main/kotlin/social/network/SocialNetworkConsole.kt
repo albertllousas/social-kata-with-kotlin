@@ -35,5 +35,5 @@ private fun getMinutesFormat(minutes: Long): String =
         else -> "$minutes minutes"
     }
 
-fun Message.asFormatted(clock: Clock): String = "${this.value} (${getMinutesFormat(this.getMinutesTillNow(clock))} ago"
+fun Message.asFormatted(clock: Clock): String = "${this.value} (${getMinutesFormat(this.getMinutesTillNow(clock))} ago)"
 
