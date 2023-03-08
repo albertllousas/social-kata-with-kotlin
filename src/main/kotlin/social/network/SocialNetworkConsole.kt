@@ -14,17 +14,7 @@ class SocialNetworkConsole(
 
     fun submitCommand(command: String): String = parse(command).let(::execute)
 
-    fun execute(command: Command): String = when (command) {
-        is PublishMessage ->
-            timelines.publish(command).let { "" }
-
-        is ViewTimeline ->
-            timelines
-                .view(command)
-                .joinToString("\n") { it.asFormatted(clock) }
-    }
-
-    fun parse(command: String): Command =
+    private fun parse(command: String): Command =
         when {
             command.contains(PUBLISH_DELIMITER) ->
                 command.split(PUBLISH_DELIMITER)
@@ -32,13 +22,16 @@ class SocialNetworkConsole(
 
             else -> ViewTimeline(User(command))
         }
+
+    private fun execute(command: Command): String = when (command) {
+        is PublishMessage ->
+            timelines.publish(command).let { "" }
+        is ViewTimeline ->
+            timelines
+                .view(command)
+                .joinToString("\n") { it.asFormatted(clock) }
+    }
 }
-
-sealed class Command
-
-data class PublishMessage(val user: User, val message: Message) : Command()
-
-data class ViewTimeline(val from: User) : Command()
 
 
 private fun getMinutesFormat(minutes: Long): String =
