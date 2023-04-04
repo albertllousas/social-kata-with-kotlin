@@ -1,17 +1,18 @@
 package social.network
 
-import social.network.domain.*
+import social.network.domain.User
+import social.network.domain.UserName
+import social.network.domain.handlePublishMessage
+import social.network.domain.handleSubscribe
+import social.network.domain.handleViewTimeline
+import social.network.domain.handleViewWall
 import social.network.infra.cmdline.Client
 import social.network.infra.repository.InMemoryMessagesRepository
 import social.network.infra.repository.InMemoryUsersRepository
 import java.time.Clock
 
-//wiring, where koin?
-
 fun buildClient(): Client {
-
     val messagesRepository = InMemoryMessagesRepository()
-
     val userRepository = InMemoryUsersRepository(
         mutableMapOf(
             UserName("Alice") to User(UserName("Alice"), following = emptyList()),
@@ -19,7 +20,6 @@ fun buildClient(): Client {
             UserName("Charlie") to User(UserName("Charlie"), following = emptyList())
         )
     )
-
     return Client(
         handlePublishMessageCmd = handlePublishMessage(messagesRepository, Clock.systemUTC()),
         handleSubscribeCmd = handleSubscribe(userRepository),
@@ -34,6 +34,6 @@ fun main() {
     println("'$quitCmd' to exit")
     while (true) {
         val input = readln()
-        if (input == quitCmd) break else println (client submitCommand input)
+        if (input == quitCmd) break else println(client submitCommand input)
     }
 }
