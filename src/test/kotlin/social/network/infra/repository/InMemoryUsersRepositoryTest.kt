@@ -1,8 +1,6 @@
 package social.network.infra.repository
 
 import io.kotest.matchers.maps.shouldContain
-import io.kotest.matchers.maps.shouldContainKey
-import io.kotest.matchers.maps.shouldContainValue
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import social.network.domain.User

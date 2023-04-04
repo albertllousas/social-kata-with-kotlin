@@ -1,13 +1,14 @@
 package social.network.infra.cmdline
 
 import io.kotest.matchers.shouldBe
-import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import social.network.domain.Command
-import social.network.domain.Command.*
+import social.network.domain.Command.PublishMessage
+import social.network.domain.Command.Subscribe
+import social.network.domain.Command.ViewTimeline
+import social.network.domain.Command.ViewWall
 import social.network.domain.CommandResponse
 import social.network.domain.CommandResponse.MessagesView
 import social.network.domain.CommandResponse.None

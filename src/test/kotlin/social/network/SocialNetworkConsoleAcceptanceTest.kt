@@ -3,7 +3,12 @@ package social.network
 import com.mercateo.test.clock.TestClock
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
-import social.network.domain.*
+import social.network.domain.User
+import social.network.domain.UserName
+import social.network.domain.handlePublishMessage
+import social.network.domain.handleSubscribe
+import social.network.domain.handleViewTimeline
+import social.network.domain.handleViewWall
 import social.network.infra.cmdline.Client
 import social.network.infra.cmdline.ConsoleFormatter
 import social.network.infra.repository.InMemoryMessagesRepository
