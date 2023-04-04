@@ -1,4 +1,4 @@
-package social.network
+package social.network.infra
 
 import social.network.domain.User
 import social.network.domain.UserName
