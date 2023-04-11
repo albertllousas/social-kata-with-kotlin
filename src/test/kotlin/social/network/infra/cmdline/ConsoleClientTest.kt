@@ -14,7 +14,7 @@ import social.network.domain.CommandResponse.MessagesView
 import social.network.domain.CommandResponse.None
 import social.network.domain.HandleCommand
 
-class ClientTest {
+class ConsoleClientTest {
 
     private val handlePublishMessageCmd = mockk<HandleCommand<PublishMessage, None>>()
     private val handleSubscribeCmd = mockk<HandleCommand<Subscribe, None>>()
@@ -23,7 +23,7 @@ class ClientTest {
     private val parse = mockk<(String) -> Command>()
     private val format = mockk<(CommandResponse) -> String>()
 
-    private val client = Client(
+    private val consoleClient = ConsoleClient(
         handlePublishMessageCmd, handleSubscribeCmd, handleViewTimelineCmd, handleViewWallCmd, parse, format
     )
 
@@ -36,7 +36,7 @@ class ClientTest {
         } returns None
         every { format(None) } returns ""
 
-        val result = client submitCommand "Alice -> I love the weather today"
+        val result = consoleClient submitCommand "Alice -> I love the weather today"
 
         result shouldBe ""
     }
@@ -50,7 +50,7 @@ class ClientTest {
         } returns None
         every { format(None) } returns ""
 
-        val result = client submitCommand "Charlie follows Alice"
+        val result = consoleClient submitCommand "Charlie follows Alice"
 
         result shouldBe ""
     }
@@ -65,7 +65,7 @@ class ClientTest {
         } returns someMessages
         every { format(someMessages) } returns "Alice timeline"
 
-        val result = client submitCommand "Alice"
+        val result = consoleClient submitCommand "Alice"
 
         result shouldBe "Alice timeline"
     }
@@ -80,7 +80,7 @@ class ClientTest {
         } returns someMessages
         every { format(someMessages) } returns "Alice wall content"
 
-        val result = client submitCommand "Alice wall"
+        val result = consoleClient submitCommand "Alice wall"
 
         result shouldBe "Alice wall content"
     }

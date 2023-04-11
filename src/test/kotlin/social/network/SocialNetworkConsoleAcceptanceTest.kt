@@ -9,7 +9,7 @@ import social.network.domain.handlePublishMessage
 import social.network.domain.handleSubscribe
 import social.network.domain.handleViewTimeline
 import social.network.domain.handleViewWall
-import social.network.infra.cmdline.Client
+import social.network.infra.cmdline.ConsoleClient
 import social.network.infra.cmdline.ConsoleFormatter
 import social.network.infra.repository.InMemoryMessagesRepository
 import social.network.infra.repository.InMemoryUsersRepository
@@ -32,7 +32,7 @@ class SocialNetworkConsoleAcceptanceTest {
 
     private val clock = TestClock.fixed(seed)
 
-    private val console = Client(
+    private val console = ConsoleClient(
         handlePublishMessageCmd = handlePublishMessage(messagesRepository, clock),
         handleSubscribeCmd = handleSubscribe(userRepository),
         handleViewTimelineCmd = handleViewTimeline(messagesRepository),

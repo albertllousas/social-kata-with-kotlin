@@ -12,7 +12,7 @@ import social.network.domain.HandleCommand
 import java.time.Clock
 
 
-class Client(
+class ConsoleClient(
     private val handlePublishMessageCmd: HandleCommand<PublishMessage, None>,
     private val handleSubscribeCmd: HandleCommand<Subscribe, None>,
     private val handleViewTimelineCmd: HandleCommand<ViewTimeline, MessagesView>,

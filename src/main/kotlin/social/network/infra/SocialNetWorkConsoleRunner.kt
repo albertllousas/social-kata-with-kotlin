@@ -6,12 +6,12 @@ import social.network.domain.handlePublishMessage
 import social.network.domain.handleSubscribe
 import social.network.domain.handleViewTimeline
 import social.network.domain.handleViewWall
-import social.network.infra.cmdline.Client
+import social.network.infra.cmdline.ConsoleClient
 import social.network.infra.repository.InMemoryMessagesRepository
 import social.network.infra.repository.InMemoryUsersRepository
 import java.time.Clock
 
-fun buildClient(): Client {
+fun buildClient(): ConsoleClient {
     val messagesRepository = InMemoryMessagesRepository()
     val userRepository = InMemoryUsersRepository(
         mutableMapOf(
@@ -20,7 +20,7 @@ fun buildClient(): Client {
             UserName("Charlie") to User(UserName("Charlie"), following = emptyList())
         )
     )
-    return Client(
+    return ConsoleClient(
         handlePublishMessageCmd = handlePublishMessage(messagesRepository, Clock.systemUTC()),
         handleSubscribeCmd = handleSubscribe(userRepository),
         handleViewTimelineCmd = handleViewTimeline(messagesRepository),
